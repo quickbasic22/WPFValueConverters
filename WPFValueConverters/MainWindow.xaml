@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFValueConverters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Value Converters for XAML" Height="700" Width="800">
     
     <Window.Resources>
         <local:IsStringEmpty x:Key="EmptyString" />
@@ -13,24 +13,37 @@
         <local:ColorSwitcher x:Key="ColorSwitcher" />
         <local:EmptyTxbs x:Key="EmptyTsbs" />
     </Window.Resources>
-    <Grid >
-        <TextBox x:Name="txb1" HorizontalAlignment="Left" Height="23" Margin="38, 36, 0, 0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom">
+    
+        <Grid>
+        
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+       
+
+            <TextBox x:Name="txb1" Grid.Row="0" HorizontalAlignment="Center" Height="50" Width="200" Margin="20, 20, 20, 20" TextWrapping="Wrap" Text="">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=txb1, Path=Text, Converter={StaticResource EmptyString}}" Value="True">
+                        <DataTrigger Binding="{Binding ElementName=txb1, Path=Text, Converter={StaticResource EmptyString}}" Value="true">
                             <Setter Property="Background" Value="Red" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </TextBox.Style>
         </TextBox>
-        
-        <TextBox x:Name="txb2" IsEnabled="{Binding Source={x:Reference Name=txb1}, Converter={StaticResource FilledString}}" HorizontalAlignment="Left" Height="23" Margin="38, 79, 36, 79" />
-        <Grid Margin="38, 132, 424.6, 26" Background="{Binding ElementName=txb2,  Path=Text, Converter={StaticResource ColorSwitcher}, ConverterParameter=FF}" VerticalAlignment="Bottom">
+
+        <TextBox x:Name="txb2" Grid.Row="1" Text="4" IsEnabled="{Binding Source={x:Reference Name=txb1}, Path=Text, Converter={StaticResource FilledString}}" Height="50" Width="200" Margin="20, 20, 20, 20" />
+        <Grid Grid.Row="2" Margin="20, 20, 20, 20" Background="{Binding ElementName=txb2,  Path=Text, Converter={StaticResource ColorSwitcher}, ConverterParameter=ff}" Height="170" Width="auto" >
         </Grid>
-        
-        <Button Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="195, 33, 33, 195">
+
+        <Button Content="OK" Grid.Row="3" HorizontalAlignment="Center" Height="75" Width="200" Margin="20, 20, 20, 20">
             <Button.IsEnabled>
                 <MultiBinding Converter="{StaticResource EmptyTsbs}">
                     <Binding ElementName="txb1" Path="Text" />
@@ -38,6 +51,7 @@
                 </MultiBinding>
             </Button.IsEnabled>
         </Button>
+       
     </Grid>
     
 </Window>
